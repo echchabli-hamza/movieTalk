@@ -28,6 +28,7 @@ public class Movie {
 
     private Double popularityScore;
 
+    private String imagePath;
 
     private Double rating = 0.0;
 
