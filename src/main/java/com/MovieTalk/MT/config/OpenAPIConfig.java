@@ -26,4 +26,6 @@ public class OpenAPIConfig {
                                         .bearerFormat("JWT")
                                         .description("JWT token for authentication")));
     }
+
+
 }
