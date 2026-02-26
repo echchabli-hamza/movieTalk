@@ -4,6 +4,7 @@ import com.MovieTalk.MT.entity.Movie;
 import com.MovieTalk.MT.repository.MovieRepository;
 import com.MovieTalk.MT.service.MovieService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
@@ -11,7 +12,10 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
 
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    private final FileStorageService fileStorageService;
+
+    public MovieServiceImpl(MovieRepository movieRepository, FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
         this.movieRepository = movieRepository;
     }
 
@@ -19,6 +23,19 @@ public class MovieServiceImpl implements MovieService {
     public Movie add(Movie movie) {
         return movieRepository.save(movie);
     }
+
+    @Override
+     public Movie add(Movie movie, MultipartFile image) {
+
+         String imagePath = fileStorageService.save(image);
+         movie.setImagePath(imagePath);
+
+         return movieRepository.save(movie);
+     }
+
+
+
+
 
     @Override
     public Movie update(Long id, Movie movie) {
@@ -34,6 +51,29 @@ public class MovieServiceImpl implements MovieService {
         if (movie.getRating() != null) existingMovie.setRating(movie.getRating());
         if (movie.getImagePath() != null) existingMovie.setImagePath(movie.getImagePath());
         if (movie.getCategory() != null) existingMovie.setCategory(movie.getCategory());
+
+        return movieRepository.save(existingMovie);
+    }
+
+    @Override
+    public Movie update(Long id, Movie movie, MultipartFile image) {
+        Movie existingMovie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+        
+        if (movie.getTitle() != null) existingMovie.setTitle(movie.getTitle());
+        if (movie.getSynopsis() != null) existingMovie.setSynopsis(movie.getSynopsis());
+        if (movie.getReleaseYear() != null) existingMovie.setReleaseYear(movie.getReleaseYear());
+        if (movie.getDirector() != null) existingMovie.setDirector(movie.getDirector());
+        if (movie.getActors() != null) existingMovie.setActors(movie.getActors());
+        if (movie.getPopularityScore() != null) existingMovie.setPopularityScore(movie.getPopularityScore());
+        if (movie.getRating() != null) existingMovie.setRating(movie.getRating());
+        if (movie.getCategory() != null) existingMovie.setCategory(movie.getCategory());
+        
+        // Handle new image upload
+        if (image != null && !image.isEmpty()) {
+            String imagePath = fileStorageService.save(image);
+            existingMovie.setImagePath(imagePath);
+        }
 
         return movieRepository.save(existingMovie);
     }
