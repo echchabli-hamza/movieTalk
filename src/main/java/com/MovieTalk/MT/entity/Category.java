@@ -1,7 +1,6 @@
 package com.MovieTalk.MT.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 import lombok.Data;
 
 import java.util.List;
