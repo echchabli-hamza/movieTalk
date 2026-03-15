@@ -1,5 +1,6 @@
 package com.MovieTalk.MT.controller;
 
+import com.MovieTalk.MT.dto.MovieDTO;
 import com.MovieTalk.MT.entity.Movie;
 import com.MovieTalk.MT.service.MovieService;
 import org.springframework.http.MediaType;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/movies")
@@ -69,14 +71,16 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> listAll() {
-        List<Movie> movies = movieService.listAll();
+    public ResponseEntity<List<MovieDTO>> listAll() {
+        List<MovieDTO> movies = movieService.listAll().stream()
+                .map(MovieDTO::fromEntity)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> listOne(@PathVariable Long id) {
+    public ResponseEntity<MovieDTO> listOne(@PathVariable Long id) {
         Movie movie = movieService.listOne(id);
-        return ResponseEntity.ok(movie);
+        return ResponseEntity.ok(MovieDTO.fromEntity(movie));
     }
 }

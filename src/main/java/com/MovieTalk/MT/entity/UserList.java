@@ -1,5 +1,6 @@
 package com.MovieTalk.MT.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,9 +22,11 @@ public class UserList {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"favorites", "reviews", "lists", "password"})
     private User user;
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("list")
     private List<ListMovie> movies;
 
 

@@ -8,4 +8,5 @@ public interface UserListService {
     List<UserList> listAll();
     UserList getOneById(Long id);
     void delete(Long id);
+    List<UserList> listByUser(Long userId);
 }

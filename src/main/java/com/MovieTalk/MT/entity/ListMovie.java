@@ -1,5 +1,6 @@
 package com.MovieTalk.MT.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,10 +19,12 @@ public class ListMovie {
 
     @ManyToOne
     @JoinColumn(name = "list_id")
+    @JsonIgnoreProperties("movies")
     private UserList list;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @JsonIgnoreProperties({"favorites", "reviews", "listMovies"})
     private Movie movie;
 
 

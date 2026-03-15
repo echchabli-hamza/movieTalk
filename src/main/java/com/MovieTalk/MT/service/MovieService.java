@@ -12,4 +12,13 @@ public interface MovieService {
     void delete(Long id);
     List<Movie> listAll();
     Movie listOne(Long id);
+    
+    // New methods for public endpoints
+    List<Movie> getFeaturedMovies();
+    List<Movie> getTrendingMovies();
+    List<Movie> getNewReleases();
+    List<Movie> getTopRatedMovies();
+    List<Movie> getRecommendationsForUser(String username);
+    List<Movie> getMoviesByCategory(Long categoryId);
+    List<Movie> searchMovies(String query);
 }

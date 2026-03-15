@@ -1,5 +1,6 @@
 package com.MovieTalk.MT.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,9 +18,10 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String name;
 
-    private String imageUrl;
+    private String imagePath;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Movie> movies;
 
 

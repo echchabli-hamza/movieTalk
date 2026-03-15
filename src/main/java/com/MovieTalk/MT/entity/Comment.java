@@ -7,25 +7,26 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "favorites")
+@Table(name = "comments")
 @Data
-public class Favorite {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
+    private String text;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"favorites", "reviews", "lists", "password"})
+    @JsonIgnoreProperties({ "favorites", "ratings", "comments", "lists", "password" })
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    @JsonIgnoreProperties({"favorites", "reviews", "listMovies"})
+    @JsonIgnoreProperties({ "favorites", "ratings", "comments", "listMovies" })
     private Movie movie;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-
 }

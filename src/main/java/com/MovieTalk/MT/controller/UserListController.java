@@ -39,4 +39,10 @@ public class UserListController {
         userListService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<UserList>> listByUser(@PathVariable Long userId) {
+        List<UserList> userLists = userListService.listByUser(userId);
+        return ResponseEntity.ok(userLists);
+    }
 }

@@ -49,13 +49,13 @@ public class FileStorageService {
             Path uploadPath = Paths.get(uploadDir);
             Path filePath = uploadPath.resolve(fileName);
 
-            // Create directories if they don't exist
+
             Files.createDirectories(uploadPath);
             
-            // Write file
+
             Files.write(filePath, file.getBytes());
 
-            return fileName;
+             return "/uploads/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file: " + e.getMessage(), e);
         }

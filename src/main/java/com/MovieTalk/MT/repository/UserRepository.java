@@ -1,5 +1,6 @@
 package com.MovieTalk.MT.repository;
 
+import com.MovieTalk.MT.entity.Movie;
 import com.MovieTalk.MT.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;

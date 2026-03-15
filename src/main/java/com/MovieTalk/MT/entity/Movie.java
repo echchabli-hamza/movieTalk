@@ -1,5 +1,7 @@
 package com.MovieTalk.MT.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,16 +36,23 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("movies")
     private Category category;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Favorite> favorites;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    @JsonIgnore
+    private List<Rating> ratings;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<ListMovie> listMovies;
+    @JsonIgnore
+    private List<Comment> comments;
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ListMovie> listMovies;
 
 }
