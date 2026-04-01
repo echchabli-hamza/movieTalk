@@ -4,6 +4,7 @@ import com.MovieTalk.MT.entity.User;
 import com.MovieTalk.MT.repository.UserRepository;
 import com.MovieTalk.MT.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUserActiveStatus(Long id, boolean active) {
         User user = getUserById(id);
         user.setActive(active);
