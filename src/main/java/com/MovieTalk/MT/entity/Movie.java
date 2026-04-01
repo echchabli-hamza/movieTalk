@@ -34,6 +34,8 @@ public class Movie {
 
     private Double rating = 0.0;
 
+    private Integer ratersNumber = 0;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties("movies")
