@@ -22,7 +22,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("SELECT m FROM Movie m WHERE m.rating >= 4.0 AND m.popularityScore >= 7.0 ORDER BY (m.rating + m.popularityScore) DESC")
     List<Movie> findFeaturedMovies();
     
-    // For search - by title, director, or actors
     @Query("SELECT m FROM Movie m WHERE LOWER(m.title) LIKE LOWER(CONCAT('%', :query, '%')) " +
            "OR LOWER(m.director) LIKE LOWER(CONCAT('%', :query, '%')) " +
            "OR LOWER(m.actors) LIKE LOWER(CONCAT('%', :query, '%'))")

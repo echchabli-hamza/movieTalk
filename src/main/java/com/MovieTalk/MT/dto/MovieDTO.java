@@ -14,6 +14,7 @@ public class MovieDTO {
     private String actors;
     private Double popularityScore;
     private String imagePath;
+    private String trailerUrl;
     private Double rating;
 
     private Long categoryId;
@@ -32,6 +33,7 @@ public class MovieDTO {
         dto.setActors(movie.getActors());
         dto.setPopularityScore(movie.getPopularityScore());
         dto.setImagePath(movie.getImagePath());
+        dto.setTrailerUrl(movie.getTrailerUrl());
         dto.setRating(movie.getRating());
 
         if (movie.getCategory() != null) {

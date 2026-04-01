@@ -32,6 +32,9 @@ public class Movie {
 
     private String imagePath;
 
+    @Column(columnDefinition = "TEXT")
+    private String trailerUrl;
+
     private Double rating = 0.0;
 
     private Integer ratersNumber = 0;
