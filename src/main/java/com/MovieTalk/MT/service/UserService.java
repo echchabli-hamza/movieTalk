@@ -7,4 +7,6 @@ public interface UserService {
     List<User> getAllUsers();
     User getUserById(Long id);
     User updateUserActiveStatus(Long id, boolean active);
+    User getUserByEmail(String email);
+    User updateUser(User user);
 }

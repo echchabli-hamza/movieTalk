@@ -74,6 +74,7 @@ public class SecurityConfig {
                         .requestMatchers("/reviews/movie/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/user/profile/**").authenticated()
                         .requestMatchers("/user/**").hasRole("VIEWER")
                         .requestMatchers("/reviews/**").authenticated()
                         .anyRequest().authenticated())
