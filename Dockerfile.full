@@ -1,0 +1,28 @@
+# Stage 1: Build Frontend
+FROM node:22-alpine AS frontend-builder
+WORKDIR /frontend
+COPY MTfrontEnd/package*.json ./
+RUN npm ci
+COPY MTfrontEnd/ .
+RUN npm run build -- --configuration production
+
+# Stage 2: Build Backend (with embedded frontend)
+FROM maven:3.9.6-eclipse-temurin-21 AS backend-builder
+WORKDIR /app
+COPY MT/pom.xml .
+COPY MT/src/ src/
+# Copy built frontend into backend's static resources
+COPY --from=frontend-builder /frontend/dist/MTfrontEnd src/main/resources/static/
+RUN mvn clean install -DskipTests
+
+# Stage 3: Runtime - Single container for everything
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=backend-builder /app/target/MT-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 3839
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3839/index.html || exit 1
+
+CMD ["java", "-jar", "app.jar"]

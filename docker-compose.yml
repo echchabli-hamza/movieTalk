@@ -31,8 +31,8 @@ services:
 
   app:
     build:
-      dockerfile: Dockerfile
-      context: .
+      dockerfile: MT/Dockerfile.full
+      context: ..
     container_name: mt_app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/movieweb
@@ -48,7 +48,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3839/movies"]
+      test: ["CMD", "curl", "-f", "http://localhost:3839/index.html"]
       interval: 10s
       timeout: 5s
       retries: 5
