@@ -47,8 +47,26 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3839/movies"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./uploads:/app/uploads
+    networks:
+      - mt-network
+
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ../MTfrontEnd
+    container_name: mt_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      app:
+        condition: service_healthy
     networks:
       - mt-network
 
