@@ -12,6 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mt-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U hamza -d movieweb"]
       interval: 10s
@@ -23,6 +25,8 @@ services:
     container_name: mt_redis
     ports:
       - "6379:6379"
+    networks:
+      - mt-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -37,11 +41,37 @@ services:
       context: .
     container_name: mt_app
     environment:
+      # Spring Boot Configuration - Override application.properties
+      SPRING_APPLICATION_NAME: MT
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/movieweb
       SPRING_DATASOURCE_USERNAME: hamza
-      SPRING_DATASOURCE_PASSWORD: 1111
+      SPRING_DATASOURCE_PASSWORD: "1111"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      
+      # Redis Configuration
       SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PORT: "6379"
+      SPRING_REDIS_TIMEOUT: 60000ms
+      SPRING_CACHE_TYPE: redis
+      SPRING_CACHE_REDIS_TIME_TO_LIVE: 600000
+      SPRING_DATA_REDIS_REPOSITORIES_ENABLED: "false"
+      SPRING_REDIS_LETTUCE_SHUTDOWN_TIMEOUT: "0"
+      
+      # File Upload
+      APP_UPLOAD_DIR: /app/uploads
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 10MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 10MB
+      
+      # Server
+      SERVER_PORT: "3839"
+      
+      # JWT
+      JWT_SECRET: 9F2xK8QmR4ZyE6A1D7JHn5UoCPLbS0tYwXMVaGkW3Bq
+      JWT_EXPIRATION_MS: "86400000"
     ports:
       - "3839:3839"
     depends_on:
@@ -51,7 +81,19 @@ services:
         condition: service_healthy
     volumes:
       - ./uploads:/app/uploads
+    networks:
+      - mt-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3839/movies"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  mt-network:
+    driver: bridge
