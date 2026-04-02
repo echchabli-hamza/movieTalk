@@ -6,8 +6,6 @@ services:
       POSTGRES_DB: movieweb
       POSTGRES_USER: hamza
       POSTGRES_PASSWORD: "1111"
-    ports:
-      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -21,8 +19,6 @@ services:
   redis:
     image: redis:7-alpine
     container_name: mt_redis
-    ports:
-      - "6379:6379"
     networks:
       - mt-network
     healthcheck:
