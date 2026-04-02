@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: mt_postgres
+    environment:
+      POSTGRES_DB: movieweb
+      POSTGRES_USER: hamza
+      POSTGRES_PASSWORD: 1111
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hamza -d movieweb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: mt_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: mt_app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/movieweb
+      SPRING_DATASOURCE_USERNAME: hamza
+      SPRING_DATASOURCE_PASSWORD: 1111
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "3839:3839"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  postgres_data:
+  redis_data:

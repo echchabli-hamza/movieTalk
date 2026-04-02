@@ -1,0 +1,39 @@
+# Build artifacts
+target/
+.m2/
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+*.project
+*.classpath
+.eclipse
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Maven
+.mvn/repository/
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Miscellaneous
+*.log
+.env
+.env.local
+uploads/
