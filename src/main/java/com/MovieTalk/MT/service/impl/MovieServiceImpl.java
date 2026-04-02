@@ -126,8 +126,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getFeaturedMovies() {
-        List<Movie> featured = movieRepository.findFeaturedMovies();
-        return featured.size() > 10 ? featured.subList(0, 10) : featured;
+        // Return top rated movies as featured
+        return movieRepository.findTop10ByOrderByRatingDesc();
     }
 
     @Override
