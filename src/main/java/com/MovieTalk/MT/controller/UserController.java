@@ -19,21 +19,19 @@ public class UserController {
     }
 
     @GetMapping
-    @Secured("ROLE_ADMIN")
+    
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
     @PatchMapping("/{id}/active")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<User> updateUserActiveStatus(@PathVariable Long id, @RequestBody Map<String, Boolean> request) {
         Boolean active = request.get("active");
         if (active == null) {
