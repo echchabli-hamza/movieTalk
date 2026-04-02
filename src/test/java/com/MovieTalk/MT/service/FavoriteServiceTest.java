@@ -45,7 +45,8 @@ class FavoriteServiceTest {
     void setUp() {
         testUser = new User();
         testUser.setId(1L);
-        testUser.setUsername("testuser");
+        testUser.setName("testuser");
+        testUser.setEmail("test@example.com");
 
         testMovie = new Movie();
         testMovie.setId(1L);
