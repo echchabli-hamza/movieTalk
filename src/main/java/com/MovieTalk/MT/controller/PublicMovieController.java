@@ -3,6 +3,7 @@ package com.MovieTalk.MT.controller;
 import com.MovieTalk.MT.dto.MovieDTO;
 import com.MovieTalk.MT.entity.Movie;
 import com.MovieTalk.MT.service.MovieService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -20,6 +21,7 @@ public class PublicMovieController {
     }
 
     @GetMapping
+    @Cacheable(value = "publicMovies")
     public ResponseEntity<List<MovieDTO>> listAll() {
         List<MovieDTO> movies = movieService.listAll().stream()
                 .map(MovieDTO::fromEntity)

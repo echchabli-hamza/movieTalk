@@ -2,6 +2,7 @@ package com.MovieTalk.MT.controller;
 
 import com.MovieTalk.MT.entity.Category;
 import com.MovieTalk.MT.service.CategoryService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,6 +18,7 @@ public class PublicCategoryController {
     }
 
     @GetMapping
+    @Cacheable(value = "categories")
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categories = categoryService.listAll();
         return ResponseEntity.ok(categories);
